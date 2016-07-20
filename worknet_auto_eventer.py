@@ -16,13 +16,14 @@ def auto_apply():
         params={"custId":myid,"pwd":mypwd,"redirectUrl":"/seekMain.do","custClcd":"P"}
         session=requests.Session()
         site=session.post(login_url,params)
-        site=session.get(event_url)
         
         
         temp=0
         suc=0
         while(1):
-            temp+=1
+            temp=temp+1
+            
+            site=session.get(event_url)
             print("문서를 파싱합니다")
             html=BeautifulSoup(site.text,"html.parser")
             if (len(html.find_all("div",class_="state v2")))>0 :
@@ -49,7 +50,8 @@ def auto_apply():
                 else:
                     time.sleep(3)
     except:
-        global count+=1
+        global count
+        count=count+1
         print(str(count)+"번 오류 발생했습니다")
         time.sleep(3)
         auto_apply
